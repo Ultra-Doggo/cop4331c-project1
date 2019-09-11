@@ -3,7 +3,15 @@ const Schema = mongoose.Schema;
 
 // Define Schema for a user
 const UserSchema = new Schema({
-    name: {
+    //!name: {
+    //!   type: String,
+    //!    required: true
+    //!},
+    f_name: {
+        type: String,
+        required: true
+    },
+    l_name: {
         type: String,
         required: true
     },

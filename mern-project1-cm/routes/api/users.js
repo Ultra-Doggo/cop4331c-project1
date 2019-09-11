@@ -31,13 +31,15 @@ router.post("/register", (req, res) => {
     // if valid input, use MongoDB's User.findOne() to see if user exists
     User.findOne({ email: req.body.email }).then(user => {
         if (user) {
-            return res.status(400).json({ email: "Email already exists"});
+            return res.status(400).json({ email: "Account with this email already exists"});
         }
         else {
             // since user is a new one, fill in the fields with the
             // data sent in the body of the request
             const newUser = new User({
-                name: req.body.name,
+                //name: req.body.name,
+                f_name: req.body.f_name,
+                l_name: req.body.l_name,
                 email: req.body.email,
                 password: req.body.password
             });
@@ -83,13 +85,18 @@ router.post("/login", (req, res) => {
         // Check password
         bcrypt.compare(password, user.password).then(isMatch => {
             if (isMatch) {
+                
                 // User matched
                 // Create JWT Payload
                 const payload = {
                     id: user.id,
-                    name: user.name
+                    //!name: user.name
+                    f_name: user.f_name,
+                    l_name: user.l_name
+
                 };
 
+                
                 // Sign token
                 jwt.sign(
                     payload,
@@ -100,10 +107,37 @@ router.post("/login", (req, res) => {
                     (err, token) => {
                         res.json({
                             success: true,
-                            token: "Bearer " + token
+                            //token: "Bearer " + token
+                            token: token
                         });
                     }
                 );
+              
+                
+
+                /*
+                // Trying authentication a different way:
+                const token = jwt.sign(
+                    {
+                        _id: user._id
+                    },
+                    config.jwtSecret
+                );
+
+                res.cookie('t', token, {
+                    expire: new Date() + 9999
+                });
+        
+                return res.json({
+                    token,
+                    user: { _id: user._id, name: user.name, email: user.email }
+                });
+                */
+                
+
+
+
+
             }
             else {
                 return res
