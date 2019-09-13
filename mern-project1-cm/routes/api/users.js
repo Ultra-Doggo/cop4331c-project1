@@ -6,6 +6,10 @@ const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 
 
+const UserID = "";
+//console.log("user id = " + userid);
+//console.log("hello");
+
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
@@ -37,9 +41,9 @@ router.post("/register", (req, res) => {
             // since user is a new one, fill in the fields with the
             // data sent in the body of the request
             const newUser = new User({
-                //name: req.body.name,
-                f_name: req.body.f_name,
-                l_name: req.body.l_name,
+                name: req.body.name,
+                //f_name: req.body.f_name,
+                //l_name: req.body.l_name,
                 email: req.body.email,
                 password: req.body.password
             });
@@ -85,18 +89,16 @@ router.post("/login", (req, res) => {
         // Check password
         bcrypt.compare(password, user.password).then(isMatch => {
             if (isMatch) {
-                
                 // User matched
                 // Create JWT Payload
                 const payload = {
                     id: user.id,
-                    //!name: user.name
-                    f_name: user.f_name,
-                    l_name: user.l_name
+                    name: user.name
+                    //f_name: user.f_name,
+                    //l_name: user.l_name
 
                 };
 
-                
                 // Sign token
                 jwt.sign(
                     payload,
@@ -108,20 +110,27 @@ router.post("/login", (req, res) => {
                         res.json({
                             success: true,
                             //token: "Bearer " + token
-                            token: token
+                            token: token,
+                            //user_obj: user.id, // how do we put this into a variable?
                         });
+                        console.log("user id = " + user.id) // not printing the userid....
+                        UserID = user.id;
+                        //console.log(UserID);
+
                     }
-                );
-              
-                
+                );  
+                //console.log("user id = " + user.id);
+                         
+
 
                 /*
                 // Trying authentication a different way:
+                // https://medium.com/crowdbotics/building-a-mern-stack-app-with-material-ui-33ff8ca4da01
                 const token = jwt.sign(
                     {
                         _id: user._id
                     },
-                    config.jwtSecret
+                    keys.secretOrKey
                 );
 
                 res.cookie('t', token, {
@@ -134,10 +143,7 @@ router.post("/login", (req, res) => {
                 });
                 */
                 
-
-
-
-
+                
             }
             else {
                 return res
@@ -146,6 +152,9 @@ router.post("/login", (req, res) => {
             }
         });
     });
+
+    //console.log("user id = " + user.id);
+
 });
 
 
