@@ -28,9 +28,10 @@ router.post("/create", (req, res) => {
     }
     else {
         const newContact = new Contact({
-            email: req.body.email,
             contact_name: req.body.contact_name,
-            contact_number: req.body.contact_number
+            contact_number: req.body.contact_number,
+            contact_email: req.body.contact_email,
+            associated_user: req.body.associated_user
         });
 
         newContact
@@ -60,9 +61,9 @@ router.delete("/delete/:id", (req, res) => {
 router.post("/update/:id", (req, res) => {
     Contact.findById(req.params.id)
         .then(contact => {
-            contact.email = req.body.email;
             contact.contact_name = req.body.contact_name;
             contact.contact_number = req.body.contact_number;
+            contact.contact_email = req.body.contact_email;
 
             contact.save()
                 .then(() => res.json(contact))
