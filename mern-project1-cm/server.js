@@ -10,6 +10,10 @@ const contacts = require("./routes/api/contacts");
 const app = express();
 
 
+// Added one below (sep 13 5:56)
+const path = require("path");
+
+
 // Bodyparser middleware
 app.use (
     bodyParser.urlencoded({
@@ -17,6 +21,11 @@ app.use (
     })
 );
 app.use(bodyParser.json());
+
+
+//!!!!
+app.use(express.static(path.join(__dirname, "client/src")))
+
 
 
 // DB Config
