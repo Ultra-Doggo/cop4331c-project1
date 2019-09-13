@@ -12,8 +12,6 @@ module.exports = function validateRegisterInput(data) {
     // Convert empty fields to an empty string so we can use validator functions
     // (validator only works on strings)
     data.name = !isEmpty(data.name) ? data.name : "";
-    //data.f_name = !isEmpty(data.f_name) ? data.f_name : "";
-    //data.l_name = !isEmpty(data.l_name) ? data.l_name : "";
     data.email = !isEmpty(data.email) ? data.email : "";
     data.password = !isEmpty(data.password) ? data.password : "";
     data.password2 = !isEmpty(data.password2) ? data.password2 : "";
@@ -22,18 +20,6 @@ module.exports = function validateRegisterInput(data) {
     if (Validator.isEmpty(data.name)) {
         errors.name = "name is required";
     }
-
-    /*
-    // make sure first name is filled
-    if (Validator.isEmpty(data.f_name)) {
-        errors.f_name = "first name is required";
-    }
-
-    // make sure last name is filled
-    if (Validator.isEmpty(data.l_name)) {
-        errors.l_name = "last name is required";
-    }
-    */
 
     // make sure email is filled, and a valid one
     if (Validator.isEmpty(data.email)) {

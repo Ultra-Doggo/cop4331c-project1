@@ -6,10 +6,6 @@ const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 
 
-const UserID = "";
-//console.log("user id = " + userid);
-//console.log("hello");
-
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
@@ -42,8 +38,6 @@ router.post("/register", (req, res) => {
             // data sent in the body of the request
             const newUser = new User({
                 name: req.body.name,
-                //f_name: req.body.f_name,
-                //l_name: req.body.l_name,
                 email: req.body.email,
                 password: req.body.password
             });
@@ -94,8 +88,6 @@ router.post("/login", (req, res) => {
                 const payload = {
                     id: user.id,
                     name: user.name
-                    //f_name: user.f_name,
-                    //l_name: user.l_name
 
                 };
 
@@ -109,41 +101,11 @@ router.post("/login", (req, res) => {
                     (err, token) => {
                         res.json({
                             success: true,
-                            //token: "Bearer " + token
-                            token: token,
-                            //user_obj: user.id, // how do we put this into a variable?
+                            token: "Bearer " + token
                         });
-                        console.log("user id = " + user.id) // not printing the userid....
-                        UserID = user.id;
-                        //console.log(UserID);
 
                     }
-                );  
-                //console.log("user id = " + user.id);
-                         
-
-
-                /*
-                // Trying authentication a different way:
-                // https://medium.com/crowdbotics/building-a-mern-stack-app-with-material-ui-33ff8ca4da01
-                const token = jwt.sign(
-                    {
-                        _id: user._id
-                    },
-                    keys.secretOrKey
-                );
-
-                res.cookie('t', token, {
-                    expire: new Date() + 9999
-                });
-        
-                return res.json({
-                    token,
-                    user: { _id: user._id, name: user.name, email: user.email }
-                });
-                */
-                
-                
+                );               
             }
             else {
                 return res
@@ -152,9 +114,6 @@ router.post("/login", (req, res) => {
             }
         });
     });
-
-    //console.log("user id = " + user.id);
-
 });
 
 
